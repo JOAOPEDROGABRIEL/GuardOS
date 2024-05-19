@@ -31,16 +31,19 @@ _Lista de Veículos Estacionados_
 ## Melhorias
 
 _Tabela de Preços_
-![Tabela de Preços]()
+![Tabela de Preços](Images/ScreenshotTabelaPreco.svg)
+
+_Sistema de Pagamento via Operador Manual_
+![Pagamento](Images/ScreenshotPagamento.svg)
 
 _AboutMe Page_
-![AboutMe Page]()
+![AboutMe Page](Images/ScreenshotAboutPage.svg)
 
 _Login Page Aprimorado_
-![Login Page]()
+![Login Page](Images/ScreenshotLoginPage.svg)
 
 _Segurança ao Realizar Logoff_
-![Logoff Seguro]()
+![Logoff Seguro](Images/ScreenshotLogoffPage.svg)
 
 
 ### Tabela de Acesso de Login no aplicativo:

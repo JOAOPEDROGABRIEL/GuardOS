@@ -33,7 +33,7 @@ namespace GuardOS.Models.Interfaces
         Desafio de Projeto proposto por Digital Innovation One - DIO
         DIO >> https://www.dio.me/
         __________________________________________________________________________________________________
-                                                                                            release 1.0
+                                                                                            Release 1.01
 >>>");
         Console.ReadLine();
        }
@@ -59,7 +59,7 @@ namespace GuardOS.Models.Interfaces
         Console.WriteLine("\n_______________________________________________________________________________________________________________________");
         Console.WriteLine("\n   1 - Entrada de Programa Principal \n   2 - About Me Page\n \n   0 - Encerrar Guard OS");
         Console.WriteLine("\n_______________________________________________________________________________________________________________________");
-        Console.WriteLine("                                                                                                          Release 1.0\n\n>>>");
+        Console.WriteLine("                                                                                                         Release 1.01\n\n>>>");
         }
 
         public static void HomePageAutomacao(string Nome, string GeneroTerminoVogal, decimal PrecoHora, decimal PrecoTaxa)
@@ -72,9 +72,10 @@ namespace GuardOS.Models.Interfaces
                     Console.WriteLine("\n \n Selecione a Operação: ");
                     Console.WriteLine("\n_______________________________________________________________________________________________________________________");
                     Console.WriteLine("\n   1 - Entrada de Veículo \n   2 - Saída de Veículo \n   3 - Listagem de Veículos Estacionados \n \n   0 - Voltar");
-                    Console.WriteLine($"\n   Valor da Hora no Estacionamento: {PrecoHora:C2}        Valor da Taxa de Serviço: {PrecoTaxa}");
-                    Console.WriteLine("   Em caso de Atrasos de até 12 minutos, Acréscimo de 5% por hora,\n   E Adiantamento de até metade do tempo estabelecido pelo cliente, Desconto de 50% do Estacionamento.");
-                    Console.WriteLine("_______________________________________________________________________________________________________________________ \n");
+                    Console.WriteLine($"\n   Valor da Hora no Estacionamento: {PrecoHora:C2}        Valor da Taxa de Serviço: {PrecoTaxa:C2}");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________");                    
+                    Console.WriteLine("   Em caso de Atrasos de até 12 minutos, Acréscimo de 5% por hora, e Adiantamento de até metade\n   do tempo estabelecido pelo cliente, Desconto de 50% do Estacionamento.");
+                    Console.WriteLine("_______________________________________________________________________________________________________________________ \n>>>");
                 break;
 
                 case "a":
@@ -83,8 +84,10 @@ namespace GuardOS.Models.Interfaces
                     Console.WriteLine("\n \n Selecione a Operação: ");
                     Console.WriteLine("\n_______________________________________________________________________________________________________________________");
                     Console.WriteLine("\n   1 - Entrada de Veículo \n   2 - Saída de Veículo \n   3 - Listagem de Veículos Estacionados \n \n   0 - Voltar");
-                    Console.WriteLine($"\n   Valor da Hora no Estacionamento: {PrecoHora}        Valor da Taxa de Serviço: {PrecoTaxa}");
-                    Console.WriteLine("_______________________________________________________________________________________________________________________ \n");
+                    Console.WriteLine($"\n   Valor da Hora no Estacionamento: {PrecoHora:C2}        Valor da Taxa de Serviço: {PrecoTaxa:C2}");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________");
+                    Console.WriteLine("   Em caso de Atrasos de até 12 minutos, Acréscimo de 5% por hora, e Adiantamento de até metade\n   do tempo estabelecido pelo cliente, Desconto de 50% do Estacionamento.");
+                    Console.WriteLine("_______________________________________________________________________________________________________________________ \n>>>");
                 break;
 
                 default:
@@ -93,8 +96,10 @@ namespace GuardOS.Models.Interfaces
                     Console.WriteLine("\n \n Selecione a Operação: ");
                     Console.WriteLine("\n_______________________________________________________________________________________________________________________");
                     Console.WriteLine("\n   1 - Entrada de Veículo \n   2 - Saída de Veículo \n   3 - Listagem de Veículos Estacionados \n   4 - Tabela de Preços \n \n   0 - Voltar");
-                    Console.WriteLine($"\n   Valor da Hora no Estacionamento: {PrecoHora:C2}        Valor da Taxa de Serviço: {PrecoTaxa}");
-                    Console.WriteLine("_______________________________________________________________________________________________________________________ \n");
+                    Console.WriteLine($"\n   Valor da Hora no Estacionamento: {PrecoHora:C2}        Valor da Taxa de Serviço: {PrecoTaxa:C2}");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________");
+                    Console.WriteLine("   Em caso de Atrasos de até 12 minutos, Acréscimo de 5% por hora, e Adiantamento de até metade\n   do tempo estabelecido pelo cliente, Desconto de 50% do Estacionamento.");
+                    Console.WriteLine("_______________________________________________________________________________________________________________________ \n>>>");
                 break;
             }
                
@@ -356,9 +361,9 @@ ____________________________________________________________________
         Console.WriteLine(@$"
 ________________________________________________________________________________________________
                                                                   
-     Valor P/Hora   -   Valor Tarifa   -   Valor Desconto/Multa   -   Valor Total de Horas
+     Valor P/Hora   -   Valor Tarifa   -   Valor Desconto/Excedente   -   Valor Total de Horas
 
-       {valorHora:C2}             {valorTarifa:C2}               {exibicaoDescontoMulta}                    {Total:C2}             
+       {valorHora:C2}             {valorTarifa:C2}               {exibicaoDescontoMulta}                        {Total:C2}             
 ________________________________________________________________________________________________
 
 Pressione Enter para Pagar>>>");
