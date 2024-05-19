@@ -28,6 +28,9 @@ _Saida de Veículos_
 _Lista de Veículos Estacionados_
 ![Atendimento Lista](Images/ScreenshotLista.svg)
 
+### Tabela de Acesso de Login no aplicativo:
+![Usuários](Images/TabelaAcesso.png)
+
 
 ## Suporte
 Para suporte, mande um  [Email](jpgab.dev@gmail.com), e descreva sua experiência com o Guard OS.

@@ -9,7 +9,9 @@ using GuardOS.Models; // Aqui estão armazenadas as Funções Gerais do Programa
 using GuardOS.Program; // Aqui estão armazenados os dados do arquivo inicial do programa!
 using GuardOS.Models.Interfaces; // Aqui estão armazenadas as Interfaces Gráficas de Usuário!
 using GuardOS.Models.Services;
-using System.Data.SqlTypes; // Aqui estão armazenados os serviços do GuardOS
+using GuardOS.Models.UserCredentials;
+using System.Data.SqlTypes;
+using System.Reflection.PortableExecutable; // Aqui estão armazenados os serviços do GuardOS
 
 namespace GuardOS.Models.UserInterface
 {
@@ -19,11 +21,29 @@ namespace GuardOS.Models.UserInterface
         //Método de Inicialização de Serviço de Automação
         public static void Iniciar()
         {   
-            string LoginVerificacaoOficial = "admin";
-            string SenhaVerificacaoOficial = "adminuserlogin";
-            string NomeVerificacaoOficial = "Cliente";
-            decimal MenuInicPrecoHora;
-            string Login, Password;
+            Credentials Admin = new() // Gênero / Gender : Sem Atriuição / No Atribution
+            {
+                Nome = "Administrador",
+                Login = "admin",
+                Password = "adminuserlogin",
+                Gender = "s/n"
+            };
+            Credentials User1 = new() // Gênero / Gender : Homem / Male
+            {
+                Nome = "User1",
+                Login = "user1example",
+                Password = "user1pass",
+                Gender = "o"
+            };
+            Credentials User2 = new() // Gênero / Gender : Mulher / Female
+            {
+                Nome ="User2",
+                Login = "user2example",
+                Password = "user2pass",
+                Gender = "a",
+            };
+
+            Credentials SecStep1 = new Credentials();
 
             Console.Clear();
             VisualInterfaces.LoginLogo();
@@ -33,9 +53,9 @@ namespace GuardOS.Models.UserInterface
             // ^^^^^^^^^^^^^^^^^^^^^^
 
             //Inserção de Login do Usuário
-            Login = Console.ReadLine();
+            SecStep1.Login = Console.ReadLine();
 
-            if (Login == "0") 
+            if (SecStep1.Login == "0") 
             {
                 Console.WriteLine("XX - Redirecionando para Menu - XX");
             } 
@@ -47,22 +67,52 @@ namespace GuardOS.Models.UserInterface
                 // ^^^^^^^^^^^^^^^^^^^^^^
 
                 //Inserção de Senha
-                Password = Console.ReadLine();
-                            
-                if (Login == LoginVerificacaoOficial && Password == SenhaVerificacaoOficial)
+                SecStep1.Password = Console.ReadLine();
+                decimal PrecoHora;
+
+                
+                if (SecStep1.VerifyCredentialsRef(SecStep1, Admin))
                 {
                     //Insere o Valor do Estacionamento naquele dia.
                     // vvv Exibição de UI vvv
-                    
                     VisualInterfaces.PricePerHourAssets();
                     // ^^^^^^^^^^^^^^^^^^^^^^
 
-                    MenuInicPrecoHora = Convert.ToDecimal(Console.ReadLine());
+                    PrecoHora = Convert.ToDecimal(Console.ReadLine());
+                    SecStep1.Nome = Admin.Nome;
 
                     //Inicia o Programa de Automação
                     VisualInterfaces.Redirecionamento("Autoatendimento");
-                    ProgramaPrincipal.UIProgramAutomation(Login, NomeVerificacaoOficial, Password, MenuInicPrecoHora);
-                }   
+                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora);
+                }
+                else if (SecStep1.VerifyCredentialsRef(SecStep1, User1))
+                {
+                    //Insere o Valor do Estacionamento naquele dia.
+                    // vvv Exibição de UI vvv
+                    VisualInterfaces.PricePerHourAssets();
+                    // ^^^^^^^^^^^^^^^^^^^^^^
+
+                    PrecoHora = Convert.ToDecimal(Console.ReadLine());
+                    SecStep1.Nome = User1.Nome;
+
+                    //Inicia o Programa de Automação
+                    VisualInterfaces.Redirecionamento("Autoatendimento");
+                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora);
+                }
+                else if (SecStep1.VerifyCredentialsRef(SecStep1, User2))
+                {
+                    //Insere o Valor do Estacionamento naquele dia.
+                    // vvv Exibição de UI vvv
+                    VisualInterfaces.PricePerHourAssets();
+                    // ^^^^^^^^^^^^^^^^^^^^^^
+
+                    PrecoHora = Convert.ToDecimal(Console.ReadLine());
+                    SecStep1.Nome = User1.Nome;
+
+                    //Inicia o Programa de Automação
+                    VisualInterfaces.Redirecionamento("Autoatendimento");
+                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora);
+                }
                 else 
                 {
                     VisualInterfaces.ErrorLogin();
@@ -71,27 +121,27 @@ namespace GuardOS.Models.UserInterface
             }
         }
 
-        public static void UIProgramAutomation(string commLogin, string commName, string commPass, decimal commPrecoHora)
+        public static void UIProgramAutomation(string commLogin, string commName, string commPass, string commGender, decimal commPrecoHora)
         {
             Estacionamento EstacionamentoAgora = new Estacionamento();
 
-            bool Automacao;
+            bool RunProgram;
 
-            if (commName != "")
+            if (commLogin != "" && commName != "" )
             {
-                Automacao = true;
+                RunProgram = true;
             } 
             else 
             {
-                Automacao = false;
+                RunProgram = false;
             }
 
-            while (Automacao == true)
+            while (RunProgram)
             {
                 // vvv Exibição de UI vvv
                 Console.Clear();
                 VisualInterfaces.LogoAutomacao();
-                VisualInterfaces.HomePageAutomacao();
+                VisualInterfaces.HomePageAutomacao(commName, commGender);
                 // ^^^^^^^^^^^^^^^^^^^^^^
 
                 //Seletor de Menu
@@ -255,7 +305,7 @@ namespace GuardOS.Models.UserInterface
 
                     case "0": // Falta Fazer o sistema de login para saída!
                     VisualInterfaces.Encerramento("Automação");
-                    Automacao = false; //Interrompe o Loop do Menu
+                    RunProgram = false; //Interrompe o Loop do Menu
                     break;
 
                     default:

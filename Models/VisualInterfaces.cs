@@ -44,15 +44,38 @@ namespace GuardOS.Models.Interfaces
         Console.WriteLine("\n_______________________________________________________________________________________________________________________\n\n>>>");
         }
 
-        public static void HomePageAutomacao()
+        public static void HomePageAutomacao(string Nome, string GeneroTerminoVogal)
         {
-            Console.WriteLine("\n______________________________________________________________________________________________________________________");
-            Console.WriteLine("\n                    Bem Vindo ao Guard OS, seu Sistema de Estacionamento Inteligente");
-            Console.WriteLine("\n \n Selecione a Operação: ");
-            Console.WriteLine("\n_______________________________________________________________________________________________________________________");
-            Console.WriteLine("\n   1 - Entrada de Veículo \n   2 - Saída de Veículo \n   3 - Listagem de Veículos Estacionados \n \n   0 - Voltar");
-            Console.WriteLine("\n_______________________________________________________________________________________________________________________ \n");
-                
+            switch (GeneroTerminoVogal)
+            {
+                case "o":
+                    Console.WriteLine("\n______________________________________________________________________________________________________________________");
+                    Console.WriteLine($"\n               Bem Vindo {Nome} ao Guard OS, seu Sistema de Estacionamento Inteligente");
+                    Console.WriteLine("\n \n Selecione a Operação: ");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________");
+                    Console.WriteLine("\n   1 - Entrada de Veículo \n   2 - Saída de Veículo \n   3 - Listagem de Veículos Estacionados \n \n   0 - Voltar");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________ \n");
+                break;
+
+                case "a":
+                    Console.WriteLine("\n______________________________________________________________________________________________________________________");
+                    Console.WriteLine($"\n               Bem Vinda {Nome} ao Guard OS, seu Sistema de Estacionamento Inteligente");
+                    Console.WriteLine("\n \n Selecione a Operação: ");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________");
+                    Console.WriteLine("\n   1 - Entrada de Veículo \n   2 - Saída de Veículo \n   3 - Listagem de Veículos Estacionados \n \n   0 - Voltar");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________ \n");
+                break;
+
+                default:
+                    Console.WriteLine("\n______________________________________________________________________________________________________________________");
+                    Console.WriteLine($"\n               Bem Vindo {Nome} ao Guard OS, seu Sistema de Estacionamento Inteligente");
+                    Console.WriteLine("\n \n Selecione a Operação: ");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________");
+                    Console.WriteLine("\n   1 - Entrada de Veículo \n   2 - Saída de Veículo \n   3 - Listagem de Veículos Estacionados \n \n   0 - Voltar");
+                    Console.WriteLine("\n_______________________________________________________________________________________________________________________ \n");
+                break;
+            }
+               
         }
 
         public static void LoginLogo()
