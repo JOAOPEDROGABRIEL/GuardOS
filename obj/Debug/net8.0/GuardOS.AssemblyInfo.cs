@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GuardOS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d3e257ab16fcd20e2ea8933567796dc93389b78")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2633601605abb1e138c6b659153cadd8bdc14dfa")]
 [assembly: System.Reflection.AssemblyProductAttribute("GuardOS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GuardOS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

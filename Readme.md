@@ -8,9 +8,9 @@ O Programa que você precisa para seu estacionamento, de forma inteligente, mode
 
 ## Dependências
 
-- Para executar o GuardOS corretamente, será necessário a instalação da dependência "Runtimme .NET 8.0", disponível em [Instalador Runtime .NET 8.0](https://download.visualstudio.microsoft.com/download/pr/24682756-e652-486d-a9f7-c4411f3141e9/39e6bb61fab38fdfb3472305174422cb/aspnetcore-runtime-8.0.5-win-x86.exe).
+- Para executar o GuardOS corretamente, será necessário a instalação da dependência "Runtimme .NET 8.0", disponível em [Instalador Runtime .NET 8.0 x86](https://download.visualstudio.microsoft.com/download/pr/b29ee44d-c389-481c-9f18-42260bce77d6/6df9ce592e0f5ad84e6461149cb82b97/dotnet-sdk-8.0.105-win-x86.exe).
 
-- Se necessário a alteração ou adaptação do código fonte, será necessário também a instalação da Dependência "SDK .NET 8.0", disponível em [Instalador SDK .NET 8.0](https://download.visualstudio.microsoft.com/download/pr/9736c2dc-c21d-4df6-8cb7-9365ed5461a9/4c360dc61c7cb6d26b48d2718341c68e/dotnet-sdk-8.0.300-win-x86.exe).
+- Se necessário a alteração ou adaptação do código fonte, será necessário também a instalação da Dependência "SDK .NET 8.0", disponível em [Instalador SDK .NET 8.0 x86](https://download.visualstudio.microsoft.com/download/pr/9736c2dc-c21d-4df6-8cb7-9365ed5461a9/4c360dc61c7cb6d26b48d2718341c68e/dotnet-sdk-8.0.300-win-x86.exe).
     
 ## Screenshots
 _Menu Principal_
