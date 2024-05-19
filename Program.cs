@@ -31,6 +31,11 @@ public class Program
                 ProgramaPrincipal.Iniciar();
                 break;
 
+                case 2:
+                VisualInterfaces.Redirecionamento("About Me Page");
+                VisualInterfaces.AboutMePage();
+                break;
+
                 case 0:
                 //Encerra o Programa.
                 Console.WriteLine("\nXXXX Encerrando Guard OS XXXX\n");

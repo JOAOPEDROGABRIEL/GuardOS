@@ -62,13 +62,15 @@ namespace GuardOS.Models.UserInterface
             else
             {
                 // vvv Exibição de UI vvv
-                Console.WriteLine("\n\n*--------------------------------*\n");
+                Console.Clear();
+                VisualInterfaces.LoginLogo();
                 VisualInterfaces.PasswordAssets();
                 // ^^^^^^^^^^^^^^^^^^^^^^
 
                 //Inserção de Senha
                 SecStep1.Password = Console.ReadLine();
                 decimal PrecoHora;
+                decimal PrecoTaxa;
 
                 
                 if (SecStep1.VerifyCredentialsRef(SecStep1, Admin))
@@ -79,11 +81,15 @@ namespace GuardOS.Models.UserInterface
                     // ^^^^^^^^^^^^^^^^^^^^^^
 
                     PrecoHora = Convert.ToDecimal(Console.ReadLine());
+
+                    VisualInterfaces.PriceTaxAssets();
+
+                    PrecoTaxa = Convert.ToDecimal(Console.ReadLine());
                     SecStep1.Nome = Admin.Nome;
 
                     //Inicia o Programa de Automação
                     VisualInterfaces.Redirecionamento("Autoatendimento");
-                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora);
+                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora, PrecoTaxa);
                 }
                 else if (SecStep1.VerifyCredentialsRef(SecStep1, User1))
                 {
@@ -93,11 +99,15 @@ namespace GuardOS.Models.UserInterface
                     // ^^^^^^^^^^^^^^^^^^^^^^
 
                     PrecoHora = Convert.ToDecimal(Console.ReadLine());
+
+                    VisualInterfaces.PriceTaxAssets();
+
+                    PrecoTaxa = Convert.ToDecimal(Console.ReadLine());
                     SecStep1.Nome = User1.Nome;
 
                     //Inicia o Programa de Automação
                     VisualInterfaces.Redirecionamento("Autoatendimento");
-                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora);
+                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora, PrecoTaxa);
                 }
                 else if (SecStep1.VerifyCredentialsRef(SecStep1, User2))
                 {
@@ -107,11 +117,15 @@ namespace GuardOS.Models.UserInterface
                     // ^^^^^^^^^^^^^^^^^^^^^^
 
                     PrecoHora = Convert.ToDecimal(Console.ReadLine());
+
+                    VisualInterfaces.PriceTaxAssets();
+
+                    PrecoTaxa = Convert.ToDecimal(Console.ReadLine());
                     SecStep1.Nome = User1.Nome;
 
                     //Inicia o Programa de Automação
                     VisualInterfaces.Redirecionamento("Autoatendimento");
-                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora);
+                    ProgramaPrincipal.UIProgramAutomation(SecStep1.Login, SecStep1.Nome, SecStep1.Password, SecStep1.Gender, PrecoHora, PrecoTaxa);
                 }
                 else 
                 {
@@ -121,27 +135,22 @@ namespace GuardOS.Models.UserInterface
             }
         }
 
-        public static void UIProgramAutomation(string commLogin, string commName, string commPass, string commGender, decimal commPrecoHora)
+        public static void UIProgramAutomation(string commLogin, string commName, string commPass, string commGender, decimal commPrecoHora, decimal commPrecoTaxa)
         {
             Estacionamento EstacionamentoAgora = new Estacionamento();
 
             bool RunProgram;
-
-            if (commLogin != "" && commName != "" )
-            {
-                RunProgram = true;
-            } 
-            else 
-            {
-                RunProgram = false;
-            }
+            if (commLogin != "" && commName != "" ){RunProgram = true;} else {RunProgram = false;} //Define se o Loop do Programa inicia ou não.
+            List<DateTime> InicioHora = new List<DateTime>();
+            DateTime FinalHora = new DateTime();
+            List<ModuloHora> HoraAgora = new List<ModuloHora>();
 
             while (RunProgram)
             {
                 // vvv Exibição de UI vvv
                 Console.Clear();
                 VisualInterfaces.LogoAutomacao();
-                VisualInterfaces.HomePageAutomacao(commName, commGender);
+                VisualInterfaces.HomePageAutomacao(commName, commGender, commPrecoHora, commPrecoTaxa);
                 // ^^^^^^^^^^^^^^^^^^^^^^
 
                 //Seletor de Menu
@@ -164,7 +173,7 @@ namespace GuardOS.Models.UserInterface
                     string EntradaValorNome;
                     string EntradaValorCPF;
                     string EntradaValorContato;
-                    string EntradaValorHora;
+                    int EntradaValorHora;
 
                     while (EntradaAtivado)
                     {
@@ -187,7 +196,7 @@ namespace GuardOS.Models.UserInterface
                         Console.Clear();
                         VisualInterfaces.InterfaceEntradaLogo();
                         VisualInterfaces.EntradaHora();
-                        EntradaValorHora = Console.ReadLine(); 
+                        EntradaValorHora = Convert.ToInt32(Console.ReadLine()); 
 
 
                         if (EntradaValorPlaca == "")
@@ -210,7 +219,7 @@ namespace GuardOS.Models.UserInterface
                             VisualInterfaces.ErroDigitacao("Número de Telefone", "o");
                             VisualInterfaces.PareCodigoPorUmMomento();
                         }
-                        else if (EntradaValorHora == "")
+                        else if (EntradaValorHora == 0)
                         {
                             VisualInterfaces.ErroDigitacao("Hora", "a");
                             VisualInterfaces.PareCodigoPorUmMomento();
@@ -218,7 +227,9 @@ namespace GuardOS.Models.UserInterface
                         else
                         {
                             VisualInterfaces.Sucesso("Operação");
-                            EstacionamentoAgora.EntradaVeiculo(EntradaValorPlaca, EntradaValorNome, EntradaValorCPF, EntradaValorContato, Convert.ToInt32(EntradaValorHora));
+                            EstacionamentoAgora.EntradaVeiculo(EntradaValorPlaca, EntradaValorNome, EntradaValorCPF, EntradaValorContato, EntradaValorHora);
+                            VisualInterfaces.PareCodigoPorUmMomento();
+                            InicioHora.Add(DateTime.Now);
                             EntradaAtivado = false;
                         }
                     }
@@ -271,8 +282,13 @@ namespace GuardOS.Models.UserInterface
                             switch (option)
                             {
                                 case "y":
-                                    decimal x = Estacionamento.ValorSaida(EstacionamentoAgora.horasEstacionados(SaidaValorPlaca), commPrecoHora);
-                                    VisualInterfaces.ValorEstacionamento(x, commPrecoHora, 5.19M);
+                                    Console.Clear();
+                                    int indice = EstacionamentoAgora.ReturnIndex(SaidaValorPlaca);
+                                    FinalHora = DateTime.Now;
+                                    decimal HoraUsuario = EstacionamentoAgora.GetHoursbyIndex(EstacionamentoAgora, indice);
+                                    decimal DescontoMulta = ModuloHora.CalculoDescontoMulta(InicioHora, FinalHora, HoraUsuario, indice); 
+                                    decimal x = Estacionamento.ValorSaida(EstacionamentoAgora.horasEstacionados(SaidaValorPlaca), commPrecoHora, commPrecoTaxa, DescontoMulta);
+                                    VisualInterfaces.ValorEstacionamento(x, commPrecoHora, commPrecoTaxa, DescontoMulta);
                                     VisualInterfaces.SimulacaoPago();
                                     VisualInterfaces.Sucesso("Operação");
                                     EstacionamentoAgora.SaidaVeiculo(SaidaValorPlaca, SaidaValorNome, SaidaValorCPF);
@@ -298,21 +314,68 @@ namespace GuardOS.Models.UserInterface
                         List<string> Placas = Estacionamento.ListaPlacas(EstacionamentoAgora);
                         List<string> CPFS = Estacionamento.ListaCPF(EstacionamentoAgora);
                         List<string> Contatos = Estacionamento.ListaContatos(EstacionamentoAgora);
+                        List<decimal> Horas = EstacionamentoAgora.TodasHorasEstacionado(EstacionamentoAgora);
 
-                        EstacionamentoAgora.ListagemVeiculosEstacionados(Placas, Nomes, CPFS, Contatos);
-                                                                      //TODO: Consertar isto!!
+                        EstacionamentoAgora.ListagemVeiculosEstacionados(Placas, Nomes, CPFS, Contatos, InicioHora, Horas);
                     break;
 
-                    case "0": // Falta Fazer o sistema de login para saída!
-                    VisualInterfaces.Encerramento("Automação");
-                    RunProgram = false; //Interrompe o Loop do Menu
+                    case "0": // Sistema Logoff
+                    bool Exit = ProgramaPrincipal.Sair(commLogin, commPass); //Método de validação de saída
+
+                    if (Exit)
+                    {
+                        VisualInterfaces.Encerramento("Automação");
+                        RunProgram = false;  //Interrompe o Loop do Menu
+                    }
                     break;
 
-                    default:
+                    case "4":
+                        VisualInterfaces.TabelaDePrecos(commPrecoHora, commPrecoTaxa);
+                        VisualInterfaces.PareCodigoPorUmMomento();
+                    break;
+
+                    default: // Validação falsa
                     VisualInterfaces.ErroDigitacao("Valor", "o");
                     VisualInterfaces.PareCodigoPorUmMomento();
                     break;
                 }
+            }
+        }
+
+        public static bool Sair(string commLogin, string commPass)
+        {
+            Console.Clear();
+            VisualInterfaces.SairSecaoLogo();
+            VisualInterfaces.SairSecao_Login();
+            string Login = Console.ReadLine();
+
+            if (Login == "0") {return false;}
+
+            Console.Clear();
+            VisualInterfaces.SairSecaoLogo();
+            VisualInterfaces.SairSecao_Senha();
+            string Senha = Console.ReadLine();
+
+            if (Login == commLogin && Senha == commPass)
+            {
+                VisualInterfaces.SureExit();
+                string selector = Console.ReadLine();
+
+                switch (selector)
+                {
+                    case "y":
+                    return true;
+                    
+                    case "n":
+                    return false;
+
+                    default:
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
     }
