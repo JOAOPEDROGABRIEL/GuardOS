@@ -9,6 +9,43 @@ using GuardOS.Models.Interfaces;
 
 namespace GuardOS.Models.Services
 {
+    public class ModuloHora
+    {
+        DateTime HoraEntrada { get; set; }
+        DateTime HoraSaida { get; set; }
+        List<decimal> Horas { get; set; }
+
+        public static decimal CalculoDescontoExcedente(List<DateTime> Entrada, DateTime Saida, decimal UsuarioHora, int indice)
+        {
+            // Variáveis Utilizadas
+            ModuloHora Hora = new()
+            {
+            HoraEntrada = Entrada[indice],
+            HoraSaida = Saida,
+            };
+            decimal ExcedenteDesconto;  
+            decimal x = (decimal)(Hora.HoraSaida - Hora.HoraEntrada).TotalHours;
+
+            if (Convert.ToDecimal(x) <= 0.5M * UsuarioHora) // Caso Usuário Saiu mais cedo
+            {
+                ExcedenteDesconto = 0.5M;
+            }
+            else if (Convert.ToDecimal(x) >= 1.2M * UsuarioHora) // Caso Usuário Excedeu Tempo que definiu
+            {
+                ExcedenteDesconto = 1.05M * UsuarioHora;
+            }
+            else //Caso Default
+            {
+                ExcedenteDesconto = 1M;
+            }
+
+            return ExcedenteDesconto; // Saída Calculo
+        }
+        public void AddHoraEntradaNow()
+        {
+            HoraEntrada = DateTime.Now;
+        }
+    }
     public class Estacionamento
     {
         //Esta parte será para a manipulação de dados durante o atendimento do cliente!
@@ -16,9 +53,6 @@ namespace GuardOS.Models.Services
         List<string> NomeTitularVeiculo = new List<string>();
         List<string> CPFTitularVeiculo = new List<string>();
         List<decimal> HorasEstacionado = new List<decimal>();
-        List<DateTime> HorasEntrada = new List<DateTime>();
-        List<DateTime> HorasSaida = new List<DateTime>();
-        List<TimeSpan> DiferencaHorasEntrada_Saida = new List<TimeSpan>();
         List<string> ContatoTitular = new List<string>();
         
         public decimal horasEstacionados(string Placa)
@@ -27,6 +61,14 @@ namespace GuardOS.Models.Services
             decimal horas = HorasEstacionado[indice];
             return horas;
         }
+        public List<decimal> TodasHorasEstacionado(Estacionamento Atual)
+        {
+            Estacionamento Horas = new()
+            {
+                HorasEstacionado = Atual.HorasEstacionado,
+            };
+            return Horas.HorasEstacionado;
+        }
         public void EntradaVeiculo(string Placa, string NomeTitular, string CPF, string Contato, int Horas)
         {
             VeiculosEstacionados.Add(Placa);
@@ -34,13 +76,6 @@ namespace GuardOS.Models.Services
             CPFTitularVeiculo.Add(CPF);
             ContatoTitular.Add(Contato);
             HorasEstacionado.Add(Horas);
-            HorasEntrada.Add(DateTime.Now);
-        }
-        public DateTime SaidaVeiculoRegister(string Placa)
-        {
-            int indice = VeiculosEstacionados.IndexOf(Placa);
-            HorasSaida[indice] = DateTime.Now;
-            return HorasSaida[indice];
         }
         public void SaidaVeiculo(string Placa, string NomeTitular, string CPF)
         {
@@ -51,7 +86,7 @@ namespace GuardOS.Models.Services
             ContatoTitular.Remove(ContatoTitular[indice]);
             HorasEstacionado.Remove(HorasEstacionado[indice]);
         }
-        public void ListagemVeiculosEstacionados(List<string> Placas, List<string> Nome, List<string> CPF, List<string> Contato)
+        public void ListagemVeiculosEstacionados(List<string> Placas, List<string> Nome, List<string> CPF, List<string> Contato, List<DateTime> horaEntrada, List<decimal> HoraDigitadaPeloUsuario)
         {   
             int i;
             Console.Clear();
@@ -59,18 +94,25 @@ namespace GuardOS.Models.Services
             {
                 VisualInterfaces.Logo();
                 VisualInterfaces.QuantosCarrosEstaoEstacionados(Placas.Count);
-
-                Console.WriteLine("N°   - Placa    : CPF             - Contato         - Nome do Titular do Veículo");
-                Console.WriteLine("----------------------------------------------------------------------------------");
+                Console.WriteLine("");
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("N°   - Placa    : CPF             - Contato         - Hora de Entrada     - Horas - Nome do Titular do Veículo");
+                                // 0001 - ABC1234  : 12345678900     - 00123456789     - 00:00               -  000  - XXXXXXXXXXXXXXXXXXXXXXXXXX
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
 
                 for (i = 0; i < Placas.Count; i++)
                 {
                     string formattedContato = String.Format("{0:(##)#####-####}", Contato[i]);
                     string formattedCPF = String.Format("{0:###.###.###-##}", CPF[i]);
                     string formattedPlaca = String.Format("{0:###-####}", Placas[i]).ToUpper();
-                    Console.WriteLine("{0,-4} - {1,-8} : {2,-15} - {3,-15} - {4}",
-                        i + 1, formattedPlaca, formattedCPF, formattedContato, Nome[i].ToUpper());
+                    string formattedHoraEntrada = horaEntrada[i].ToShortTimeString();
+                    string formattedHoraUsuario = HoraDigitadaPeloUsuario[i].ToString("G3");
+                    Console.WriteLine("{0,-4} - {1,-8} : {2,-15} - {3,-15} - {4,-6}              - {5,-2}    - {6}",
+                        i + 1, formattedPlaca, formattedCPF, formattedContato, formattedHoraEntrada, formattedHoraUsuario, Nome[i].ToUpper());
                 }
+
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
+
                 VisualInterfaces.PareCodigoPorUmMomento();
             }
             else
@@ -116,6 +158,11 @@ namespace GuardOS.Models.Services
             {
                 return true;
             }
+        }
+        public int ReturnIndex(string Placa)
+        { 
+            int indice = VeiculosEstacionados.IndexOf(Placa);
+            return indice;
         }
         public bool ValidacaoCPF(string Placa, string CPF)
         {
@@ -169,10 +216,15 @@ namespace GuardOS.Models.Services
                 return true;
             }
         }
-        public static decimal ValorSaida(decimal Horas, decimal ValorHora)
+        public static decimal ValorSaida(decimal Horas, decimal ValorHora, decimal ValorTaxa, decimal MultaDesconto)
         {
-            decimal res = (Horas * ValorHora) + 5.19M;
+            decimal res = (Horas * ValorHora * MultaDesconto) + ValorTaxa;
             return res;
+        }
+        public decimal GetHoursbyIndex(Estacionamento modeloEstacionamento, int indice) 
+        {
+            decimal hora = modeloEstacionamento.HorasEstacionado[indice];
+            return hora;
         }
     }   
 }

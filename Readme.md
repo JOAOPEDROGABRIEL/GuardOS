@@ -28,6 +28,21 @@ _Saida de Veículos_
 _Lista de Veículos Estacionados_
 ![Atendimento Lista](Images/ScreenshotLista.svg)
 
+## Melhorias
+
+_Tabela de Preços_
+![Tabela de Preços]()
+
+_AboutMe Page_
+![AboutMe Page]()
+
+_Login Page Aprimorado_
+![Login Page]()
+
+_Segurança ao Realizar Logoff_
+![Logoff Seguro]()
+
+
 ### Tabela de Acesso de Login no aplicativo:
 ![Usuários](Images/TabelaAcesso.png)
 
